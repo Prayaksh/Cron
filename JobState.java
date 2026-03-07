@@ -1,6 +1,7 @@
-public enum JobState{
-    QUEUED, 
-    RUNNING, 
-    SUCCESS,
-    FAILED,
+public enum JobState {
+  READY,
+  QUEUED,
+  RUNNING,
+  SUCCESS,
+  FAILED,
 }
