@@ -2,18 +2,22 @@ package job;
 
 import java.util.UUID;
 import taskManager.Task;
+import taskManager.TimeProvider;
 
 //Job is the thread that would eventually work as a standalone program
 public class Job implements Runnable {
 
   private final Task task;
   public String jobID;
-  private long createdAt;
+  public long createdAt;
 
   public Job(Task task) {
     this.task = task;
-    this.jobID = UUID.randomUUID().toString();
-    this.createdAt = System.currentTimeMillis();
+    this.jobID =
+      task.getMetadata().name +
+      "-" +
+      UUID.randomUUID().toString().substring(0, 6);
+    this.createdAt = TimeProvider.getTimeProviderInstance().now();
   }
 
   @Override

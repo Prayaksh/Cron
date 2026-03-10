@@ -12,6 +12,7 @@ public class TaskScheduler {
   private Thread schedulerThread;
 
   public TaskScheduler(TaskExecutor taskExecutor) {
+    System.out.println("TaskScheduler constructed");
     this.schedulerQueue = new PriorityBlockingQueue<Task>(11, (task1, task2) ->
       Long.compare(task1.getExecuteAt(), task2.getExecuteAt())
     );
@@ -22,6 +23,7 @@ public class TaskScheduler {
 
   private void start() {
     this.schedulerThread = new Thread(() -> {
+      System.out.println("New Scheduler Thread initiated");
       while (true) {
         //todo - what if two tasks have same executeAt?? think
         try {
@@ -39,6 +41,7 @@ public class TaskScheduler {
             continue;
             //just realised we can use 1_000_000 for 1000000 for better readability
           }
+          System.out.println("Moving task from Scheduler to Executor");
           taskExecutor.execute(schedulerQueue.poll());
         } catch (Throwable t) {
           //inturruption happend
@@ -52,12 +55,14 @@ public class TaskScheduler {
   }
 
   private void wakeThread() {
+    System.out.println("Waking up the Scheduler Thread");
     LockSupport.unpark(schedulerThread);
   }
 
   public void addTask(Task task) {
     //wake the thread up once a new task is getting added
     schedulerQueue.add(task);
+    System.out.println("Task added to the Scheduler Thread");
     wakeThread();
     //adding the task
   }
@@ -68,6 +73,7 @@ public class TaskScheduler {
   }
 
   public Task getTask() {
+    System.out.println("Task Polling initiated");
     return schedulerQueue.poll();
     //returns the item and deletes it from the queue
     //couldve used take but that would initiate a thread intruption method and we used ParkSupport (easier)
