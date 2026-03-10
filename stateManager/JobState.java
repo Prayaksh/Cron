@@ -1,3 +1,5 @@
+package stateManager;
+
 public enum JobState {
   READY,
   QUEUED,
