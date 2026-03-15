@@ -38,7 +38,7 @@ public class TaskScheduler {
     );
     this.taskExecutor = taskExecutor;
     this.clock = TimeProvider.getTimeProviderInstance();
-    System.out.println("TaskScheduler.java - Current time is " + clock.now());
+    System.out.println("Current time is " + clock.now());
     start();
   }
 
@@ -95,9 +95,7 @@ public class TaskScheduler {
   public void addTask(Task task) {
     //wake the thread up once a new task is getting added
     if (task.getExecuteAt() < TimeProvider.getTimeProviderInstance().now()) {
-      System.out.println(
-        "TaskScheduler.java - Task execution time cannot occur"
-      );
+      System.out.println("Task execution time cannot occur");
       return;
     }
     System.out.println(
