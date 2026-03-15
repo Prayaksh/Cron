@@ -20,6 +20,10 @@ public abstract class Task {
     return this.schedule.executeAt;
   }
 
+  public Long getSequence() {
+    return this.schedule.sequence;
+  }
+
   public Metadata getMetadata() {
     return metadata;
   }

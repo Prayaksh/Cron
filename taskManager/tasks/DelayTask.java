@@ -3,7 +3,7 @@ package taskManager.tasks;
 import taskManager.Task;
 import taskManager.utils.*;
 
-class DelayTask extends Task {
+public class DelayTask extends Task {
 
   public DelayTask(Long executeAt, Payload payload) {
     //Payload - {int delay}

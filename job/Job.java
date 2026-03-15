@@ -27,7 +27,10 @@ public class Job implements Runnable {
       task.execute();
     } catch (Exception e) {
       //todo increase the efficiency here
+      System.out.println("Job.java - Error occurred in the " + jobID);
       System.err.println(e);
+
+      throw e;
     }
   }
 }
