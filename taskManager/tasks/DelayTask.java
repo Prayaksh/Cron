@@ -9,7 +9,7 @@ public class DelayTask extends Task {
     //Payload - {int delay}
     super(
       new Metadata("DelayTask", "simulates long work"),
-      new Schedule(executeAt, null, 0, 0),
+      new Schedule(executeAt, null, 0, 0, 0),
       payload
     );
   }

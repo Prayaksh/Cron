@@ -16,12 +16,16 @@ public abstract class Task {
     this.payload = payload;
   }
 
-  public Long getExecuteAt() {
+  public long getExecuteAt() {
     return this.schedule.executeAt;
   }
 
-  public Long getSequence() {
+  public long getSequence() {
     return this.schedule.sequence;
+  }
+
+  public long getTimeout() {
+    return this.schedule.timeout;
   }
 
   public Metadata getMetadata() {

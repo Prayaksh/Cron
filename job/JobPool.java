@@ -1,6 +1,7 @@
 package job;
 
 import java.util.concurrent.*;
+import javax.naming.TimeLimitExceededException;
 
 public class JobPool {
 
@@ -16,7 +17,12 @@ public class JobPool {
 
     Future<?> future = executor.submit(job);
     try {
-      System.out.println(future.get());
+      System.out.println(
+        future.get(job.getTaskTimeout(), TimeUnit.MILLISECONDS)
+      );
+    } catch (TimeoutException e) {
+      future.cancel(true);
+      throw new TimeLimitExceededException();
     } catch (Exception e) {
       System.out.println(
         "JobPool.java - An error occurred while executing the task" + e

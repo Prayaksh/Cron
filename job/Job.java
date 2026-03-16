@@ -20,6 +20,10 @@ public class Job implements Runnable {
     this.createdAt = TimeProvider.getTimeProviderInstance().now();
   }
 
+  public long getTaskTimeout() {
+    return task.getTimeout();
+  }
+
   @Override
   public void run() {
     try {

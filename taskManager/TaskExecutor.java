@@ -1,5 +1,6 @@
 package taskManager;
 
+import javax.naming.TimeLimitExceededException;
 import job.Job;
 import job.JobPool;
 
@@ -26,22 +27,25 @@ public class TaskExecutor {
   }
 
   private void rescheduleTask(Task task) {
-    if (task.schedule.retryCount <= 0) {
-      System.out.println("Cannot reschedule no more retry left");
+    if (task.schedule.retryCount > 0) {
+      System.out.println("Retrying the execution flow...");
+      // Poor logic
+      // Todo - make the user enter the retry delay time
+      task.schedule.executeAt =
+        TimeProvider.getTimeProviderInstance().now() + task.schedule.delay;
+      System.out.println(
+        "TaskExecutor.java - Reschedule initiated with Execution time -" +
+          task.schedule.executeAt
+      );
+
+      task.schedule.retryCount--;
+      taskScheduler.addTask(task);
+    } else {
+      System.out.println(
+        "No more retry left. Task execution failed permanently"
+      );
       return;
     }
-
-    // Poor logic
-    // Todo - make the user enter the retry delay time
-    task.schedule.executeAt =
-      TimeProvider.getTimeProviderInstance().now() + task.schedule.delay;
-    System.out.println(
-      "TaskExecutor.java - Reschedule initiated with Execution time -" +
-        task.schedule.executeAt
-    );
-
-    task.schedule.retryCount--;
-    taskScheduler.addTask(task);
   }
 
   public void execute(Task task) {
@@ -56,20 +60,15 @@ public class TaskExecutor {
       Job newJob = new Job(task); //todo make it a real job
       System.out.println("Task converted to job and moved to the JobPool");
       jobPool.submit(newJob); //this will be the flow for the next execution
+    } catch (TimeLimitExceededException e) {
+      System.err.println("Timeout exceeded");
+      rescheduleTask(task);
     } catch (Exception e) {
       //todo make it efficient
       System.out.println("TaskExecutor.java - An error occurred ");
       System.err.println(e);
       //retry logic goes here
-
-      if (task.schedule.retryCount > 0) {
-        System.out.println("Retrying the execution flow...");
-        rescheduleTask(task);
-      } else {
-        System.out.println(
-          "No more retry left. Task execution failed permanently"
-        );
-      }
+      rescheduleTask(task);
     }
   }
 }

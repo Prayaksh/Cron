@@ -8,7 +8,7 @@ public class FailTask extends Task {
   public FailTask(Long executeAt, Payload payload) {
     super(
       new Metadata("FailTask", "always throws exception"),
-      new Schedule(executeAt, null, 0, 3, 10_000),
+      new Schedule(executeAt, null, 100_000, 3, 10_000),
       payload
     );
   }
