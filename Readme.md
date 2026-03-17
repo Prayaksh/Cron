@@ -331,11 +331,3 @@ This project was built to explore:
 - **modular scheduler architecture**
 
 ---
-
-If you want, I can also make a **much stronger version of this README** that includes:
-
-- **Threading model explanation**
-- **Sequence diagrams**
-- **Performance considerations**
-- **LockSupport explanation**
-- **System design interview level documentation**
